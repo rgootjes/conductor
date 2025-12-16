@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Vertical Slice Definition",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique identifier for the slice."
+    },
+    "description": {
+      "type": "string",
+      "description": "Purpose and responsibilities of the slice."
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the slice contract."
+    },
+    "contracts": {
+      "type": "object",
+      "description": "Public interfaces exposed by the slice.",
+      "properties": {
+        "api": {
+          "type": "array",
+          "description": "API routes or endpoints exposed by the slice (backend).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "method": { "type": "string" },
+              "path": { "type": "string" },
+              "summary": { "type": "string" }
+            },
+            "required": ["method", "path"],
+            "additionalProperties": false
+          }
+        },
+        "ui": {
+          "type": "array",
+          "description": "UI entry points exported by the slice (frontend).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "component": { "type": "string" },
+              "props": { "type": "object" },
+              "description": { "type": "string" }
+            },
+            "required": ["component"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Explicitly declared external dependencies (not other slices).",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    }
+  },
+  "required": ["name", "description", "version", "contracts"],
+  "additionalProperties": false
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Example Frontend Slice Contract",
+  "type": "object",
+  "properties": {
+    "component": {
+      "type": "string",
+      "const": "ExampleEntry",
+      "description": "Publicly exported component representing the slice entry point."
+    },
+    "inputs": {
+      "type": "object",
+      "description": "Props accepted by the slice entry point.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Optional heading override for the example slice."
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  "required": ["component", "inputs"],
+  "additionalProperties": false
+}
