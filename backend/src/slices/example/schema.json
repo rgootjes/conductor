@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Example Backend Slice Contract",
+  "type": "object",
+  "properties": {
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "method": { "type": "string", "enum": ["GET"] },
+          "path": { "type": "string", "const": "/example/" },
+          "description": { "type": "string" }
+        },
+        "required": ["method", "path"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["routes"],
+  "additionalProperties": false
+}
