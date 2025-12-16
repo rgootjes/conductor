@@ -192,3 +192,4 @@ The priority is structure, learning, and leverage rather than premature optimiza
 2. Define the orchestrator contract (inputs and outputs)
 3. Define a base `Agent` interface in Python
 4. Create a minimal Next.js UI that submits a goal and renders orchestration steps
+5. Review `docs/RUN_GUIDE.md` for prerequisites and local run instructions
