@@ -9,12 +9,23 @@ Vertical slices are self-contained feature modules that include UI, APIs, data a
 - **Independent Evolution:** Slices should be easy to develop, test, and deploy with minimal coordination.
 - **Composition at the Edges:** Application shells compose slices through their public entry points and routers rather than internal details.
 
-## Allowed Sharing
+## Forbidden Patterns
 
-- Platform-level utilities (logging, configuration, tracing) that are explicitly designated as shared.
-- Schema-driven data contracts that are versioned and validated.
+- Shared business services that live outside slices but are imported across them.
+- Direct imports between slices for business logic or stateful helpers.
+- Cross-slice data writes or shared mutable state (databases, caches, in-memory singletons).
+- Sneaking coupling through test helpers, fixtures, or code generation without contracts.
 
-## Prohibited Coupling
+## Allowed Communication Patterns
 
-- Direct imports between slices for business logic.
-- Reliance on unversioned shared globals or implicit side effects.
+- Public API contracts declared in `slice.schema.json` (HTTP, RPC, or message events).
+- UI composition through published entry points (e.g., `index.ts` exports) without reaching into internal folders.
+- Read-only data projections via dependency declarations that pin another slice's contract version.
+- Shared platform services that are explicitly designated and versioned (logging, configuration, tracing).
+
+## Examples
+
+- ✅ A frontend slice renders another slice's public component via its documented export.
+- ✅ A backend slice queries another slice's read-only endpoint using the version pinned in its dependencies.
+- ❌ A slice imports another slice's utility module from an `internal` folder.
+- ❌ Two slices share a mutable singleton service for caching or state sharing.

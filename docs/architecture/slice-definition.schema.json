@@ -13,7 +13,61 @@
     },
     "version": {
       "type": "string",
-      "description": "Semantic version of the slice contract."
+      "description": "Semantic version of the slice contract. Must increment on any change to public contracts or filesystem guarantees.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "filesystem": {
+      "type": "object",
+      "description": "Expected files and folders inside the slice root.",
+      "properties": {
+        "requiredFiles": {
+          "type": "array",
+          "description": "Files that MUST exist at the root of the slice (e.g. slice.schema.json, README.md, index entrypoint).",
+          "items": {
+            "type": "string",
+            "enum": ["slice.schema.json", "README.md", "index.ts", "index.tsx", "index.py"]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "allowedFolders": {
+          "type": "array",
+          "description": "Folder names permitted under the slice root and their intent.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "purpose": { "type": "string" },
+              "required": { "type": "boolean", "default": false }
+            },
+            "required": ["name", "purpose"],
+            "additionalProperties": false
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": ["requiredFiles", "allowedFolders"],
+      "additionalProperties": false
+    },
+    "visibility": {
+      "type": "object",
+      "description": "Defines which assets are public entry points versus internal-only.",
+      "properties": {
+        "public": {
+          "type": "array",
+          "description": "Paths or exports other slices/application shells may import (e.g. index.ts, published API handlers).",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "internal": {
+          "type": "array",
+          "description": "Paths that are private implementation details and MUST NOT be imported outside the slice.",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      },
+      "required": ["public", "internal"],
+      "additionalProperties": false
     },
     "contracts": {
       "type": "object",
@@ -51,12 +105,41 @@
       "additionalProperties": false
     },
     "dependencies": {
-      "type": "array",
-      "description": "Explicitly declared external dependencies (not other slices).",
-      "items": { "type": "string" },
-      "uniqueItems": true
+      "type": "object",
+      "description": "Optional, read-only references to external capabilities.",
+      "properties": {
+        "externalPackages": {
+          "type": "array",
+          "description": "Third-party libraries or platform services this slice reads from or calls.",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "slices": {
+          "type": "array",
+          "description": "Versioned, read-only references to other slices (no mutation, no shared state).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "version": {
+                "type": "string",
+                "description": "Referenced slice contract version used for compatibility checks.",
+                "pattern": "^\\d+\\.\\d+\\.\\d+$"
+              },
+              "intent": {
+                "type": "string",
+                "description": "Explanation of the read-only usage (e.g. query data, render public component)."
+              }
+            },
+            "required": ["name", "version"],
+            "additionalProperties": false
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
     }
   },
-  "required": ["name", "description", "version", "contracts"],
+  "required": ["name", "description", "version", "filesystem", "visibility", "contracts"],
   "additionalProperties": false
 }
