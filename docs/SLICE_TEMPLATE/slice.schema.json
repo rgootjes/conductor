@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "slice": "example.slice",
+    "version": "1.0.0",
+    "description": "Brief description of the slice capability",
+    "exposes": {
+      "exampleAction": {
+        "description": "What this action does",
+        "input": {
+          "type": "object",
+          "properties": {
+            "exampleField": {
+              "type": "string",
+              "description": "Example input field"
+            }
+          },
+          "required": ["exampleField"]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "type": "string",
+              "description": "Example output field"
+            }
+          },
+          "required": ["result"]
+        }
+      }
+    }
+  }
+  
