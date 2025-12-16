@@ -2,7 +2,25 @@
 
 This guide explains the prerequisites and steps to run the Conductor backend and frontend locally.
 
-## Prerequisites
+## Quick Start with Docker
+Use Docker if you want to run both services without installing Python or Node.js locally.
+
+1. Install [Docker](https://docs.docker.com/get-docker/) and ensure `docker compose` is available.
+2. From the repository root, build and start the stack:
+   ```bash
+   docker compose up --build
+   ```
+3. Access the applications:
+   - Backend API: http://localhost:8000 (health check at `/health`)
+   - Frontend UI: http://localhost:3000
+4. Stop the containers when you are done:
+   ```bash
+   docker compose down
+   ```
+
+> Note: Re-run `docker compose up --build` when you change source code so the images rebuild with your updates.
+
+## Prerequisites (Local Tooling)
 
 - **Python**: 3.11+ (for the FastAPI backend)
 - **Node.js**: 18+ (for the Next.js frontend)
@@ -44,7 +62,7 @@ This guide explains the prerequisites and steps to run the Conductor backend and
    ```
    The app will be available at `http://localhost:3000`.
 
-## Running Both Together
+## Running Both Together (Local Tooling)
 - Start the backend server first to ensure the frontend can communicate with it.
 - Keep both terminals running while developing to see live updates.
 - If ports `8000` (backend) or `3000` (frontend) are in use, configure alternative ports using `uvicorn --port <port>` or `npm run dev -- --port <port>`.
