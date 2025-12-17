@@ -10,7 +10,6 @@ Instead of relying on a single conversational AI, this framework introduces a st
 - **Specialized agents** handle focused responsibilities
 - Outputs are coordinated, validated, and composed into a coherent result
 
-This repository is a **from-scratch rebuild** focused on clarity, extensibility, and AI-first design.
 
 ---
 

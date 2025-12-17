@@ -1,25 +1,29 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "name": "demo_status",
   "description": "Frontend contract for rendering demo environment status information.",
   "version": "0.1.0",
   "filesystem": {
-    "requiredFiles": ["README.md", "index.ts"],
+    "requiredFiles": ["README.md", "index.ts", "page.tsx", "schema.json"],
     "allowedFolders": []
   },
   "visibility": {
     "public": ["index.ts"],
     "internal": ["page.tsx"]
   },
-  "contracts": {
-    "api": [],
-    "ui": [
-      {
-        "component": "DemoStatusPage",
-        "props": {},
-        "description": "Page shell for presenting demo status information."
-      }
-    ]
+  "route": "/demo/status",
+  "component": "DemoStatusPage",
+  "dataContract": {
+    "type": "object",
+    "properties": {
+      "status": { "type": "string" },
+      "environment": { "type": "string" },
+      "timestamp": { "type": "string", "format": "date-time" }
+    },
+    "required": ["status", "environment", "timestamp"],
+    "additionalProperties": false
   },
+  "uiStates": ["loading", "error", "ready"],
   "dependencies": {
     "externalPackages": [],
     "slices": []

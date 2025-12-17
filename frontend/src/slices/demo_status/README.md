@@ -1,17 +1,18 @@
 # Demo Status Frontend Slice
 
-The Demo Status slice provides the frontend surfaces for presenting demo environment status information. It will eventually render status indicators and related messaging for users.
+This slice renders demo environment status information fetched from the backend API. It demonstrates a minimal App Router page that sources real data without mocks.
 
-## Responsibilities
-- Own UI components and pages that display demo status details.
-- Define the slice contract in `schema.json` to describe public entry points.
-- Keep implementation details encapsulated within the slice directory.
+## Slice Purpose
+- Provide the `/demo/status` page that surfaces the backend demo status payload.
+- Keep UI concerns for the demo status isolated within the slice directory.
+- Reflect the contract defined in `schema.json` for the rendered data fields.
 
-## Boundaries
-- Do not import internals from other slices; interactions should use documented contracts only.
-- Global application shells may import the public entry point, but internal components remain private.
-- Network calls and data fetching will be added later as the API is defined.
+## Architectural Intent
+- The slice exports `DemoStatusPage` as its public entry point and is consumed by the App Router page.
+- Data fetching happens inside the slice, avoiding shared utilities or cross-slice imports.
+- Loading and error handling remain contained within the slice to keep global UI primitives untouched.
 
-## Current State
-- Contains a stub page component without data fetching or business logic.
-- Contracts focus on filesystem layout and entry points while the UI surface is designed.
+## Intentionally Excluded
+- No authentication flows or protected routing are implemented.
+- No persistent storage, caching, or mocked data layers are included.
+- No shared styling abstractions; the UI is intentionally minimal and local to the slice.
