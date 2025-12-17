@@ -5,6 +5,7 @@ description = "Conductor FastAPI backend skeleton"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi==0.111.1",
+    "jsonschema==4.23.0",
     "uvicorn[standard]==0.30.3"
 ]
 

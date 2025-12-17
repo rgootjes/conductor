@@ -1,9 +1,10 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "name": "demo_status",
   "description": "Backend contract for exposing demo environment status information.",
   "version": "0.1.0",
   "filesystem": {
-    "requiredFiles": ["README.md"],
+    "requiredFiles": ["README.md", "router.py", "schema.json"],
     "allowedFolders": []
   },
   "visibility": {
@@ -11,11 +12,31 @@
     "internal": ["__init__.py"]
   },
   "contracts": {
-    "api": [],
+    "api": [
+      {
+        "method": "GET",
+        "path": "/demo/status",
+        "summary": "Retrieve the current demo environment status.",
+        "responseSchema": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "description": "Human-readable status indicator." },
+            "environment": { "type": "string", "description": "Identifier for the active environment." },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time",
+              "description": "UTC timestamp describing when the payload was generated."
+            }
+          },
+          "required": ["status", "environment", "timestamp"],
+          "additionalProperties": false
+        }
+      }
+    ],
     "ui": []
   },
   "dependencies": {
-    "externalPackages": [],
+    "externalPackages": ["jsonschema"],
     "slices": []
   }
 }

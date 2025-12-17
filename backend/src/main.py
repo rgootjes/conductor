@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from .slices.example.api import router as example_router
+from .slices.registry import register_slices
 
 app = FastAPI(title="Conductor Backend", version="0.1.0")
 
@@ -10,4 +10,4 @@ async def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-app.include_router(example_router, prefix="/example", tags=["example"])
+register_slices(app)
