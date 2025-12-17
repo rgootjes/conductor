@@ -18,7 +18,7 @@ export function DemoStatusPage() {
 
     async function loadStatus() {
       try {
-        const response = await fetch("/demo/status", { signal: controller.signal });
+        const response = await fetch("/api/demo/status", { signal: controller.signal });
 
         if (!response.ok) {
           throw new Error(`Request failed with status ${response.status}`);
