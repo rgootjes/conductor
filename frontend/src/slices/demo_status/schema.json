@@ -1,0 +1,27 @@
+{
+  "name": "demo_status",
+  "description": "Frontend contract for rendering demo environment status information.",
+  "version": "0.1.0",
+  "filesystem": {
+    "requiredFiles": ["README.md", "index.ts"],
+    "allowedFolders": []
+  },
+  "visibility": {
+    "public": ["index.ts"],
+    "internal": ["page.tsx"]
+  },
+  "contracts": {
+    "api": [],
+    "ui": [
+      {
+        "component": "DemoStatusPage",
+        "props": {},
+        "description": "Page shell for presenting demo status information."
+      }
+    ]
+  },
+  "dependencies": {
+    "externalPackages": [],
+    "slices": []
+  }
+}
