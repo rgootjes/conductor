@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "demo_orchestrator",
+  "description": "Backend contract for orchestrating a mock sequence of demo agents.",
+  "version": "0.1.0",
+  "filesystem": {
+    "requiredFiles": ["README.md", "__init__.py", "router.py", "schema.json"],
+    "allowedFolders": []
+  },
+  "visibility": {
+    "public": ["router.py"],
+    "internal": ["__init__.py"]
+  },
+  "contracts": {
+    "api": [
+      {
+        "method": "POST",
+        "path": "/demo/run",
+        "summary": "Start a new demo orchestration run.",
+        "responseSchema": {
+          "type": "object",
+          "properties": {
+            "run_id": { "type": "string" }
+          },
+          "required": ["run_id"],
+          "additionalProperties": false
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/demo/run/{run_id}",
+        "summary": "Poll the status of a demo orchestration run.",
+        "responseSchema": {
+          "type": "object",
+          "properties": {
+            "run_id": { "type": "string" },
+            "status": { "type": "string", "enum": ["pending", "running", "completed"] },
+            "current_agent": { "type": ["string", "null"] },
+            "steps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "agent": { "type": "string", "enum": ["planner", "designer", "builder"] },
+                  "status": { "type": "string", "enum": ["pending", "running", "completed"] },
+                  "output": { "type": ["string", "null"] }
+                },
+                "required": ["agent", "status", "output"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": ["run_id", "status", "current_agent", "steps"],
+          "additionalProperties": false
+        }
+      }
+    ],
+    "ui": []
+  },
+  "dependencies": {
+    "externalPackages": ["jsonschema"],
+    "slices": []
+  }
+}

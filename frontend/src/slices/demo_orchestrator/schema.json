@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "demo_orchestrator",
+  "description": "Frontend contract for running and observing the mock orchestrator demo.",
+  "version": "0.1.0",
+  "filesystem": {
+    "requiredFiles": ["README.md", "index.ts", "DemoOrchestratorPage.tsx", "schema.json"],
+    "allowedFolders": []
+  },
+  "visibility": {
+    "public": ["index.ts"],
+    "internal": ["DemoOrchestratorPage.tsx"]
+  },
+  "route": "/demo/orchestrator",
+  "component": "DemoOrchestratorPage",
+  "dataContract": {
+    "type": "object",
+    "properties": {
+      "run_id": { "type": "string" },
+      "status": { "type": "string", "enum": ["pending", "running", "completed"] },
+      "current_agent": { "type": ["string", "null"] },
+      "steps": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "agent": { "type": "string", "enum": ["planner", "designer", "builder"] },
+            "status": { "type": "string", "enum": ["pending", "running", "completed"] },
+            "output": { "type": ["string", "null"] }
+          },
+          "required": ["agent", "status", "output"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": ["run_id", "status", "current_agent", "steps"],
+    "additionalProperties": false
+  },
+  "uiStates": ["idle", "starting", "running", "completed", "error"],
+  "dependencies": {
+    "externalPackages": [],
+    "slices": []
+  }
+}
