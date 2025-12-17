@@ -1,0 +1,30 @@
+version: 1
+name: demo_linear
+description: Demonstrates a linear workflow executed by mock planner, designer, and builder agents.
+inputs:
+  - name: objective
+    description: The goal for the workflow to accomplish
+    required: true
+  - name: audience
+    description: Optional target audience for the plan
+    required: false
+agents:
+  - name: planner
+    kind: mock
+  - name: designer
+    kind: mock
+  - name: builder
+    kind: mock
+steps:
+  - id: plan
+    name: Plan the approach
+    agent: planner
+    input: "Outline a plan for {{inputs.objective}} targeted at {{inputs.audience}}"
+  - id: design
+    name: Design the experience
+    agent: designer
+    input: "Draft a design informed by {{steps.plan.output}}"
+  - id: build
+    name: Build the delivery
+    agent: builder
+    input: "Assemble the final output that reflects {{steps.design.output}}"
