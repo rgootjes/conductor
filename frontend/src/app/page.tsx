@@ -15,6 +15,9 @@ export default function Home() {
       <div style={{ marginBottom: '1rem' }}>
         <Link href="/demo/orchestrator">Start the demo orchestrator</Link>
       </div>
+      <div style={{ marginBottom: '1rem' }}>
+        <Link href="/workflow/orchestrator">Run the workflow orchestrator</Link>
+      </div>
       <ExampleEntry />
       <div style={{ marginTop: '1.5rem' }}>
         <Link href="https://nextjs.org/docs/app" target="_blank">

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "workflow_orchestrator",
+  "description": "UI for launching and monitoring YAML-defined workflows.",
+  "version": "0.1.0",
+  "filesystem": {
+    "requiredFiles": ["README.md", "WorkflowOrchestratorPage.tsx", "index.ts", "schema.json"],
+    "allowedFolders": []
+  },
+  "visibility": {
+    "public": ["WorkflowOrchestratorPage.tsx", "index.ts"],
+    "internal": []
+  },
+  "contracts": {
+    "ui": [
+      {
+        "component": "WorkflowOrchestratorPage",
+        "props": {
+          "workflowName": { "type": "string", "description": "Name of the workflow to load from the backend" }
+        },
+        "events": [
+          "onRunRequested",
+          "onStatusUpdated"
+        ]
+      }
+    ],
+    "api": []
+  },
+  "dependencies": {
+    "externalPackages": [],
+    "slices": []
+  }
+}

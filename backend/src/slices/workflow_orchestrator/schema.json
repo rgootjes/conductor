@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "workflow_orchestrator",
+  "description": "Declarative workflow orchestration driven by YAML-defined sequences and mock agents.",
+  "version": "0.1.0",
+  "filesystem": {
+    "requiredFiles": [
+      "README.md",
+      "__init__.py",
+      "router.py",
+      "schema.json",
+      "workflow_definition.schema.json"
+    ],
+    "allowedFolders": ["workflows"]
+  },
+  "visibility": {
+    "public": ["router.py"],
+    "internal": ["__init__.py"]
+  },
+  "contracts": {
+    "api": [
+      {
+        "method": "GET",
+        "path": "/workflow/definition/{workflow_name}",
+        "summary": "Retrieve a validated workflow definition by name.",
+        "responseSchema": { "$ref": "#/$defs/WorkflowDefinition" }
+      },
+      {
+        "method": "POST",
+        "path": "/workflow/run",
+        "summary": "Start executing a workflow by name with supplied inputs.",
+        "requestSchema": { "$ref": "#/$defs/WorkflowRunRequest" },
+        "responseSchema": { "$ref": "#/$defs/WorkflowRunStartResponse" }
+      },
+      {
+        "method": "GET",
+        "path": "/workflow/run/{run_id}",
+        "summary": "Observe the latest status of a workflow run.",
+        "responseSchema": { "$ref": "#/$defs/WorkflowRunStatus" }
+      }
+    ],
+    "ui": []
+  },
+  "$defs": {
+    "WorkflowInput": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "required": { "type": "boolean" },
+        "example": { "type": ["string", "null"] }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "WorkflowStep": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "agent": { "type": "string" },
+        "input": { "type": "string" }
+      },
+      "required": ["id", "agent", "input"],
+      "additionalProperties": false
+    },
+    "WorkflowDefinition": {
+      "type": "object",
+      "properties": {
+        "version": { "type": ["string", "number"] },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "inputs": { "type": "array", "items": { "$ref": "#/$defs/WorkflowInput" } },
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "kind": { "type": "string", "enum": ["mock"] }
+            },
+            "required": ["name", "kind"],
+            "additionalProperties": false
+          }
+        },
+        "steps": { "type": "array", "items": { "$ref": "#/$defs/WorkflowStep" }, "minItems": 1 }
+      },
+      "required": ["version", "name", "description", "inputs", "agents", "steps"],
+      "additionalProperties": false
+    },
+    "WorkflowRunRequest": {
+      "type": "object",
+      "properties": {
+        "workflow_name": { "type": "string" },
+        "inputs": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "required": ["workflow_name", "inputs"],
+      "additionalProperties": false
+    },
+    "WorkflowRunStartResponse": {
+      "type": "object",
+      "properties": {
+        "run_id": { "type": "string" },
+        "workflow_name": { "type": "string" }
+      },
+      "required": ["run_id", "workflow_name"],
+      "additionalProperties": false
+    },
+    "WorkflowRunStepStatus": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "agent": { "type": "string" },
+        "input": { "type": ["string", "null"] },
+        "output": { "type": ["string", "null"] },
+        "status": { "type": "string", "enum": ["pending", "running", "completed", "failed"] }
+      },
+      "required": ["id", "agent", "input", "output", "status"],
+      "additionalProperties": false
+    },
+    "WorkflowRunStatus": {
+      "type": "object",
+      "properties": {
+        "run_id": { "type": "string" },
+        "workflow_name": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "running", "completed", "failed"] },
+        "current_step": { "type": ["string", "null"] },
+        "steps": { "type": "array", "items": { "$ref": "#/$defs/WorkflowRunStepStatus" } },
+        "error": { "type": ["string", "null"] }
+      },
+      "required": ["run_id", "workflow_name", "status", "current_step", "steps", "error"],
+      "additionalProperties": false
+    }
+  },
+  "dependencies": {
+    "externalPackages": ["fastapi", "jsonschema", "pyyaml"],
+    "slices": []
+  }
+}
