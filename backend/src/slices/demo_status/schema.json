@@ -1,0 +1,21 @@
+{
+  "name": "demo_status",
+  "description": "Backend contract for exposing demo environment status information.",
+  "version": "0.1.0",
+  "filesystem": {
+    "requiredFiles": ["README.md"],
+    "allowedFolders": []
+  },
+  "visibility": {
+    "public": ["router.py"],
+    "internal": ["__init__.py"]
+  },
+  "contracts": {
+    "api": [],
+    "ui": []
+  },
+  "dependencies": {
+    "externalPackages": [],
+    "slices": []
+  }
+}
